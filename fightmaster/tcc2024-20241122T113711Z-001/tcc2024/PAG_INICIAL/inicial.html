@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    
+    .header {
+        background-color: rgb(0, 0, 0);
+        color: white;
+        padding: 20px;
+        position: fixed;
+        top: 0px;
+        width: 96.6%;
+        height: 13%;
+        border: 3px solid red;
+        text-align: center;
+        z-index: 2;
+    }
+
+    .slideshow {
+        position: absolute;
+        width: 50%;
+        height: 95vh;
+        height: 80vh; /* Ajuste para 100% da altura da tela */
+        top: 20%;
+        overflow: hidden;
+      }
+
+      .slideshow img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .slideshow a {
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .slideshow-organizador {
+        position: absolute;
+        width: 50%;
+        height: 95vh;
+        height: 80vh; /* Ajuste para 100% da altura da tela */
+        top: 20%;
+        right: 0%;
+        overflow: hidden;
+      }
+
+      .slideshow-organizador img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .slideshow-organizador a {
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      
+</style>
+<body>
+    <div class="header">
+        <h1>FIGHTMASTER</h1>
+    </div>
+
+    <img class="slideshow"
+        src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/muhammad-ali-throws-a-left-hook-and-misses-trevor-berbick-news-photo-51763479-1562106502.jpg?crop=1xw:1xh;center,top&resize=480:*"
+        alt="Imagem 1"
+    />
+
+    <img class="slideshow-organizador"
+        src="https://img.freepik.com/premium-photo/boxing-ring-with-shining-lights_832479-14655.jpg?w=740"
+        alt="Imagem 1"
+    />
+
+    <div class="hamburger-menu">
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+          <span></span>
+        </label>
+
+        <ul class="menu__box">
+          <li><center><a class="menu__item" href="https://twitter.com/FightMaster2024" target="_blank">Twitter</a></center></li>
+          <li><center><a class="menu__item" href="https://www.instagram.com/fightmaster2024/" target="_blank">Instagram</a></center></li>
+          <li><center><a class="menu__item" href="file:///D:/PAG_CONTATO/contato.html#">Contato</a></center></li>
+        </ul>
+      </div>
+
+    <a href="file:///D:/PAG_CADASTRO/Cadastro.html" class="btn btn-white btn-animate">JUNTE-SE A NÓS</a></h1>
+</body>
+</html>

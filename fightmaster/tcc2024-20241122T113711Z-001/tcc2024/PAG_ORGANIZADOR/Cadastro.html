@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      #lutador-login {
+        position: absolute;
+        top: 25%;
+        left: 20%;
+      }
+      #lutadorLogin {
+        position: absolute;
+        top: 30%;
+        left: 22%;
+      }
+      #organizador-login {
+        position: absolute;
+        top: 25%;
+        right: 20%;
+      }
+      #organizadorLogin {
+        position: absolute;
+        top: 30%;
+        right: 28%;
+      }
+      #lutador {
+        position: absolute;
+        top: 12%;
+        left: 20%;
+      }
+      #lutadorCadastro {
+        position: absolute;
+        top: 14%;
+        left: 22%;
+      }
+      #organizador {
+        position: absolute;
+        top: 12%;
+        right: 20%;
+      }
+      #organizadorCadastro {
+        position: absolute;
+        top: 14%;
+        right: 28%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container" id="container">
+      <div class="form-container sign-up-container">
+        <form action="#">
+          <div style="position: absolute; top: 0%"><h2>CADASTRO</h2></div>
+          <br /><br /><br /><br />
+          <span id="lutador" class="span">Lutador</span>
+          <div>
+            <input
+              type="radio"
+              id="lutadorCadastro"
+              name="tipo"
+              value="lutador"
+              onclick="mostrarCampos()"
+              checked
+            />
+            <span id="organizador" class="span">Organizador</span>
+            <input
+              type="radio"
+              id="organizadorCadastro"
+              name="tipo"
+              value="organizador"
+              onclick="mostrarCampos()"
+            />
+          </div>
+          <br />
+          <input type="text" id="nome" placeholder="Nome" />
+          <input type="email" id="email" placeholder="Email" />
+          <input type="password" id="senha" placeholder="Senha" />
+          <input
+            type="text"
+            id="modalidade"
+            placeholder="Modalidade"
+            style="display: none"
+          />
+          <input type="tel" id="telefone" placeholder="Telefone" />
+          <input type="text" id="cpf" placeholder="CPF" style="display: none" />
+          <input
+            type="text"
+            id="cnpj"
+            placeholder="CNPJ"
+            style="display: none"
+          />
+          <button type="button" onclick="salvarCadastro()">Entre</button>
+        </form>
+      </div>
+      <div class="form-container sign-in-container">
+        <form action="#">
+          <center><h1>LOGIN</h1></center>
+          <br /><br /><br /><br />
+          <div class="social-container">
+            <span id="lutador-login" class="span">Lutador</span>
+            <div>
+              <input
+                type="radio"
+                id="lutadorLogin"
+                name="tipo"
+                value="lutador"
+                onclick="mostrarCampos()"
+                checked
+              />
+              <span id="organizador-login" class="span">Organizador</span>
+              <input
+                type="radio"
+                id="organizadorLogin"
+                name="tipo"
+                value="organizador"
+                onclick="mostrarCampos()"
+              />
+            </div>
+          </div>
+          <input type="email" id="emailLogin" placeholder="Email" />
+          <input type="password" id="senhaLogin" placeholder="Senha" />
+          <a href="#">Esqueceu sua senha?</a>
+          <button type="button" onclick="realizarLogin()">
+            Entre na sua conta
+          </button>
+        </form>
+      </div>
+      <div class="overlay-container">
+        <div class="overlay">
+          <div class="overlay-panel overlay-left">
+            <h1>Bem vindo!</h1>
+            <p>
+              Para se manter conectado conosco, por favor use suas informações
+              pessoais
+            </p>
+            <button class="ghost" id="signIn">Login</button>
+          </div>
+          <div class="overlay-panel overlay-right">
+            <h1>Cadastre-se</h1>
+            <p>Faça seu cadastro, caso não tenha uma conta</p>
+            <button class="ghost" id="signUp">Comece</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const signUpButton = document.getElementById("signUp");
+      const signInButton = document.getElementById("signIn");
+      const container = document.getElementById("container");
+      signUpButton.addEventListener("click", () => {
+        container.classList.add("right-panel-active");
+      });
+      signInButton.addEventListener("click", () => {
+        container.classList.remove("right-panel-active");
+      });
+      function mostrarCampos() {
+        var tipoSelecionado = document.querySelector(
+          'input[name="tipo"]:checked'
+        ).value;
+        var camposLutador = ["modalidade", "cpf"];
+        var camposOrganizador = ["cnpj"];
+        if (tipoSelecionado === "lutador") {
+          camposLutador.forEach(function (campo) {
+            document.getElementById(campo).style.display = "block";
+          });
+          camposOrganizador.forEach(function (campo) {
+            document.getElementById(campo).style.display = "none";
+          });
+        } else if (tipoSelecionado === "organizador") {
+          camposLutador.forEach(function (campo) {
+            document.getElementById(campo).style.display = "none";
+          });
+          camposOrganizador.forEach(function (campo) {
+            document.getElementById(campo).style.display = "block";
+          });
+        }
+      }
+      window.onload = mostrarCampos;
+
+      function salvarCadastro(event) {
+        // Obter os valores dos campos
+        var nome = document.getElementById("nome").value;
+        var email = document.getElementById("email").value;
+        var senha = document.getElementById("senha").value;
+        var telefone = document.getElementById("telefone").value;
+        var modalidade = document.getElementById("modalidade").value;
+        var cpf = document.getElementById("cpf").value;
+        var cnpj = document.getElementById("cnpj").value;
+
+        // Verifique se os campos obrigatórios estão preenchidos
+        if (
+          !nome ||
+          !email ||
+          !senha ||
+          !telefone ||
+          (document.querySelector('input[name="tipo"]:checked').value ===
+            "lutador" &&
+            (!cpf || !modalidade)) ||
+          (document.querySelector('input[name="tipo"]:checked').value ===
+            "organizador" &&
+            !cnpj)
+        ) {
+          alert("Por favor, preencha todos os campos obrigatórios!");
+          return; // Não salve se algum campo obrigatório não estiver preenchido
+        }
+
+        // Obtém o tipo de usuário selecionado (lutador ou organizador)
+        var tipo = document.querySelector('input[name="tipo"]:checked').value;
+
+        // Cria o objeto de cadastro com os dados apropriados
+        var cadastro = {
+          nome: nome,
+          email: email,
+          senha: senha,
+          telefone: telefone,
+          modalidade: tipo === "lutador" ? modalidade : null, // Apenas salva modalidade se for lutador
+          cpf: tipo === "lutador" ? cpf : null, // Apenas salva CPF se for lutador
+          cnpj: tipo === "organizador" ? cnpj : null, // Apenas salva CNPJ se for organizador
+          tipo: tipo,
+        };
+
+        // Define a chave específica para cada tipo de usuário
+        var chaveLocalStorage =
+          tipo === "lutador" ? "lutadores" : "organizadores";
+
+        // Recupera a lista de cadastros existente ou inicializa um array vazio
+        var cadastrosSalvos =
+          JSON.parse(localStorage.getItem(chaveLocalStorage)) || [];
+
+        // Adiciona o novo cadastro à lista
+        cadastrosSalvos.push(cadastro);
+
+        // Salva a lista atualizada no localStorage na chave correspondente
+        localStorage.setItem(
+          chaveLocalStorage,
+          JSON.stringify(cadastrosSalvos)
+        );
+
+        alert("Cadastro salvo com sucesso!");
+        console.log(cadastrosSalvos); // Mostra os dados salvos no console
+
+        limparCampos(); // Limpar os campos após o salvamento
+      }
+
+      function realizarLogin() {
+        // Obtém o email e a senha digitados pelo usuário
+        const email = document.getElementById("emailLogin").value;
+        const senha = document.getElementById("senhaLogin").value;
+        const botaoLutador = document.getElementById("buttonLutador");
+
+        // Verifica se o e-mail e a senha estão preenchidos
+        if (!email || !senha) {
+          alert("Por favor, preencha o e-mail e a senha.");
+          return; // Interrompe a execução da função caso algum campo esteja vazio
+        }
+
+        // Obtém o tipo de usuário selecionado
+        const isOrganizador =
+          document.getElementById("organizadorLogin").checked;
+        const isLutador = document.getElementById("lutadorLogin").checked;
+
+        // Verifica se a escolha é "Lutador" e todos os campos estão preenchidos
+        if (isLutador) {
+          // Pega a lista de lutadores no localStorage
+          const usuarios = JSON.parse(localStorage.getItem("lutadores")) || [];
+          // Verifica se existe um usuário com o email e a senha fornecidos
+          const usuarioEncontrado = usuarios.find(
+            (usuario) => usuario.email === email && usuario.senha === senha
+          );
+          if (usuarioEncontrado) {
+            alert("Login realizado com sucesso como Lutador!");
+            window.location.href = "file:///D:/PAG_LUTADOR/PAG_LUTADOR.html"; // Redireciona para a página do Lutador
+          } else {
+            alert("Email ou senha incorretos para Lutador.");
+          }
+        } else if (isOrganizador) {
+          // Pega a lista de organizadores no localStorage
+          const usuarios =
+            JSON.parse(localStorage.getItem("organizadores")) || [];
+          // Verifica se existe um usuário com o email e a senha fornecidos
+          const usuarioEncontrado = usuarios.find(
+            (usuario) => usuario.email === email && usuario.senha === senha
+          );
+          if (usuarioEncontrado) {
+            alert("Login realizado com sucesso como Organizador!");
+            window.location.href =
+              "file:///D:/PAG_ORGANIZADOR/PAG_ORGANIZADOR.html"; // Redireciona para a página do Organizador
+          } else {
+            alert("Email ou senha incorretos para Organizador.");
+          }
+        }
+      }
+
+      function limparCampos() {
+        document.getElementById("nome").value = "";
+        document.getElementById("email").value = "";
+        document.getElementById("senha").value = "";
+        document.getElementById("modalidade").value = "";
+        document.getElementById("telefone").value = "";
+        document.getElementById("cpf").value = "";
+        document.getElementById("cnpj").value = "";
+      }
+    </script>
+  </body>
+</html>

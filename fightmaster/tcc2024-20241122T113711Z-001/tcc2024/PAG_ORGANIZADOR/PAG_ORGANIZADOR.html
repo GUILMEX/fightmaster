@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      .header {
+        background-color: rgb(0, 0, 0);
+        color: white;
+        padding: 20px;
+        position: absolute;
+        top: 0px;
+        width: 97.75%;
+        border: 3px solid red;
+      }
+
+      .header-interior {
+        background-color: rgb(0, 0, 0);
+        color: white;
+        padding: 20px;
+        position: absolute;
+        top: -5px;
+        width: 97.8%;
+        height: 75%;
+        border: 3px solid red;
+        z-index: 2;
+        left: -0.05%;
+      }
+
+      /* Estilize o retângulo branco */
+      .evento-info {
+        display: none;
+        position: fixed;
+        top: 50%; /* Posiciona o retângulo no centro vertical */
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 70%; /* Ajuste o tamanho conforme necessário */
+        max-width: 500px; /* Limita a largura máxima */
+        height: 120%; /* Ajuste o tamanho conforme necessário */
+        max-height: 880px; /* Limita a altura máxima */
+        background-color: #000000; /* Fundo mais escuro */
+        border: 8px solid red; /* Adiciona uma borda vermelha */
+        padding: 20px;
+        animation: slide 1.5s ease-in-out; /* Adiciona uma animação de deslize */
+        border-radius: 10px; /* Bordas arredondadas */
+        z-index: 6;
+      }
+
+      @keyframes slide {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, -160%); /* Inicia acima do ponto central */
+        }
+        100% {
+          opacity: 1;
+          transform: translate(-50%, -50%); /* Chega ao ponto central */
+        }
+      }
+
+      /* Estilize o rótulo */
+      .evento-info label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: white; /* Define a cor do texto como branco */
+      }
+
+      /* Estilize o campo de entrada */
+      .evento-info input[type="text"],
+      .evento-info select {
+        width: 90%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s ease;
+        background-color: rgba(
+          525,
+          0,
+          0,
+          0.1
+        ); /* Adiciona um fundo transparente com borda vermelha */
+        color: white;
+        box-shadow: inset 0 0 0 2px red; /* Adiciona uma sombra interna para criar o contorno vermelho */
+        text-align: center; /* Centraliza o texto dentro do campo */
+      }
+
+      .evento-info select option {
+        background-color: rgba(255, 0, 0, 0.1);
+        color: white;
+      }
+
+      .evento-info {
+        /* Define o fundo transparente */
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none; /* Inicialmente oculto */
+      }
+
+      .evento-info input[type="text"]:focus,
+      .evento-info select:focus {
+        outline: none;
+        box-shadow: inset 0 0 0 2px rgb(8, 0, 0); /* Adiciona uma sombra interna azul ao focar */
+      }
+
+      .evento-info button {
+        background-color: rgba(255, 0, 0, 0.1);
+        position: absolute;
+        border: 4px solid red;
+        color: white;
+        cursor: pointer;
+        width: 60%;
+        height: 50px;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+        left: 50%;
+        transform: translateX(-50%); /* Centraliza horizontalmente */
+      }
+
+      .evento-info button:hover {
+        background-color: rgba(218, 15, 15, 0.562);
+        border: 4px solid black;
+        border-radius: 5px;
+      }
+
+      .evento-info h2 {
+        color: white; /* Define a cor do texto como branco */
+      }
+
+      #mensagem {
+        display: none;
+        color: white;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      /* Estilo para as opções do campo de seleção */
+      #modalidade option {
+        background-color: rgb(31, 0, 0);
+        color: white;
+      }
+
+      /* Estilo para a lista de opções do campo de seleção */
+      #modalidade::-ms-expand {
+        display: none; /* Remove a seta de dropdown no IE */
+      }
+
+      /* Estilo para a seta de dropdown */
+      #modalidade:after {
+        content: "\25BC"; /* Seta para baixo */
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+        color: white;
+      }
+
+      .evento-exibicao {
+        display: none; /* Inicialmente oculto */
+        width: 100%; /* Ajuste conforme necessário */
+        margin: 0 auto; /* Centraliza horizontalmente */
+        background-color: #333; /* Fundo mais escuro */
+        border: 8px solid red; /* Adiciona uma borda vermelha */
+        padding: 20px;
+        z-index: 2; /* Garantir que esteja acima de outros elementos */
+        margin-top: -50px; /* Adiciona um espaço acima do retângulo */
+        position: relative; /* Necessário para ajustar a posição */
+        right: 5%; /* Move o retângulo um pouco para a esquerda */
+        top: 5%;
+      }
+
+      .evento-exibicao h2 {
+        color: white; /* Define a cor do texto como branco */
+      }
+
+      .evento-exibicao p {
+        color: white; /* Define a cor do texto como branco */
+      }
+
+      .evento-exibicao button {
+        background-color: rgba(255, 0, 0, 0.1);
+        color: white;
+        cursor: pointer;
+        width: 100px;
+        height: 30px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+      }
+
+      .evento-exibicao button:hover {
+        background-color: rgba(49, 0, 0, 0.562);
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: -1;
+        backdrop-filter: blur(30px);
+        z-index: 5;
+      }
+
+      .overlay.active {
+        display: block;
+      }
+
+      .close-btn {
+        text-decoration: none;
+        position: relative;
+        top: -80px;
+        left: 48%;
+        font-size: 50px;
+        color: white;
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .close-btn:hover {
+        transform: scale(1.2);
+      }
+
+      .closeBtn-perfil {
+        text-decoration: none;
+        position: relative;
+        top: 0px;
+        left: 48%;
+        font-size: 50px;
+        color: white;
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .closeBtn-perfil:hover {
+        transform: scale(1.2);
+      }
+
+      .closeBtn-lutas {
+        text-decoration: none;
+        position: relative;
+        top: -490px;
+        left: 95%;
+        font-size: 50px;
+        color: white;
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .closeBtn-lutas:hover {
+        transform: scale(1.2);
+      }
+
+      .slideshow {
+        position: relative;
+        width: 100%;
+        height: 100vh; /* Ajuste para 100% da altura da tela */
+        overflow: hidden;
+      }
+
+      .slideshow img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        animation: fade 15s infinite; /* Duração total de 15s para todas as imagens */
+      }
+
+      .slideshow a {
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      @keyframes fade {
+        0% {
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        33% {
+          opacity: 1;
+        }
+        53% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      .profile-pic {
+        position: absolute;
+        top: 25px; /* Ajuste a posição vertical */
+        right: 55px; /* Ajuste a posição horizontal */
+        width: 90px; /* Ajuste o tamanho da imagem */
+        height: 90px; /* Ajuste o tamanho da imagem */
+        border-radius: 50%; /* Faz a imagem ser circular */
+        overflow: hidden; /* Esconde partes da imagem que ultrapassam o border-radius */
+        border: 4px solid red; /* Borda branca para destacar */
+        cursor: pointer;
+        z-index: 3;
+      }
+
+      .profile-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cobre toda a área disponível sem distorcer a imagem */
+      }
+
+      .profile-pic:hover {
+        border: 4px solid rgb(149, 1, 1);
+      }
+
+      .profilePic-menuPerfil {
+        position: absolute;
+        top: 50px; /* Ajuste a posição vertical */
+        right: 100px; /* Ajuste a posição horizontal */
+        width: 300px; /* Ajuste o tamanho da imagem */
+        height: 300px; /* Ajuste o tamanho da imagem */
+        border-radius: 50%; /* Faz a imagem ser circular */
+        overflow: hidden; /* Esconde partes da imagem que ultrapassam o border-radius */
+        border: 6px solid red; /* Borda branca para destacar */
+        cursor: pointer;
+        z-index: 3;
+      }
+
+      .profilePic-menuPerfil img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cobre toda a área disponível sem distorcer a imagem */
+      }
+
+      .profilePic-menuPerfil:hover {
+        border: 6px solid rgb(149, 1, 1);
+      }
+
+      /* Estilo para o menu */
+      .menu {
+        display: none; /* Inicialmente oculto */
+        position: absolute;
+        right: -3px;
+        transform: translateY(131px); /* Posição final */
+        background-color: #000000;
+        border: 4px solid red; /* Adiciona uma borda vermelha */
+        border-radius: 5px; /* Bordas arredondadas */
+        width: 10%;
+        height: 100%;
+        animation: slideDesce 1s ease; /* Aplica a animação */
+        transition: opacity 0.3s ease;
+        z-index: 1;
+      }
+
+      @keyframes slideDesce {
+        0% {
+          transform: translateY(-200px); /* Começa fora da tela */
+          opacity: 0; /* Invisível no início */
+        }
+        100% {
+          transform: translateY(131px); /* Posição final */
+          opacity: 1; /* Totalmente visível */
+        }
+      }
+
+      .menu button {
+        display: block; /* Botões em bloco para ocupar toda a largura */
+        width: 100%; /* Largura total do menu */
+        height: 50px;
+        padding: 10px; /* Espaçamento interno */
+        border: none; /* Remove borda padrão */
+        background: none; /* Fundo transparente */
+        cursor: pointer; /* Indica que o botão é clicável */
+        text-align: center; /* Alinha o texto à esquerda */
+        font-size: 25px;
+        color: white;
+      }
+
+      .menu button:hover {
+        background-color: #7b0000dc;
+      }
+
+      .info-container {
+        position: absolute;
+        left: 34%;
+        transform: translateY(100px);
+        background-color: #000000;
+        border: 4px solid red; /* Adiciona uma borda vermelha */
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1000;
+        width: 30%;
+        height: 500%;
+        font-size: 40px;
+        animation: slideDown 2s ease; /* Aplica a animação */
+        z-index: 6;
+        text-align: left; /* Alinha o texto à esquerda */
+      }
+
+      .info-container.active {
+        display: block; /* Torna o contêiner visível */
+      }
+
+      @keyframes slideDown {
+        0% {
+          transform: translateY(-1000px); /* Começa fora da tela */
+          opacity: 0; /* Invisível no início */
+        }
+        100% {
+          transform: translateY(100px); /* Posição final */
+          opacity: 1; /* Totalmente visível */
+        }
+      }
+
+      .info-container-perfil {
+        position: absolute;
+        top: 100%;
+        transform: translateX(263.3%);
+        background-color: #000000;
+        border: 4px solid red; /* Adiciona uma borda vermelha */
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1000;
+        width: 25%;
+        height: 500%;
+        font-size: 40px;
+        animation: slidePerfil 1s ease; /* Aplica a animação */
+      }
+
+      .info-container-perfil.active {
+        display: block; /* Torna o contêiner visível */
+      }
+
+      @keyframes slidePerfil {
+        0% {
+          transform: translateX(600%); /* Começa fora da tela */
+          opacity: 0; /* Invisível no início */
+        }
+        100% {
+          transform: translateX(263.3%); /* Posição final */
+          opacity: 1; /* Totalmente visível */
+        }
+      }
+
+      #criarEventoButton {
+    position: relative;
+    z-index: 3; /* Ajuste o valor conforme necessário */
+}
+    </style>
+  </head>
+  <body>
+    <div class="slideshow">
+      <img
+        src="https://img.freepik.com/fotos-premium/um-ringue-de-boxe-com-um-anel-no-centro-e-uma-luz-na-parede_9493-2725.jpg"
+        alt="Imagem 1"
+        style="animation-delay: 0s; z-index: -2;"
+      />
+      <img
+        src="https://th.bing.com/th/id/OIP.QvQF-R2J9e3KoICgBPt9XgHaE7?w=626&h=417&rs=1&pid=ImgDetMain"
+        alt="Imagem 2"
+        style="animation-delay: 5s; z-index: -2;"
+      />
+      <img
+        src="https://img.freepik.com/premium-photo/empty-boxing-ring-dark-arena-with-spotlight-wall_901003-5234.jpg"
+        alt="Imagem 3"
+        style="animation-delay: 10s; z-index: -2;"
+      />
+    </div>
+    <div class="header">
+      <div class="header-interior"></div>
+      <div
+        id="infoContainer"
+        style="
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 70%;
+          max-width: 500px;
+          height: 120%;
+          max-height: 880px;
+          background-color: #000000cb;
+          border: 8px solid red;
+          padding: 20px;
+          animation: slideDown 1s ease-in-out;
+          border-radius: 10px;
+          font-size: 40px;
+        "
+      ></div>
+
+      <div class="profile-pic" onclick="toggleMenu()">
+        <img
+          src="https://img.blogs.es/anexom/wp-content/uploads/2016/04/foto-perfil.jpg"
+          alt="Foto de Perfil"
+        />
+      </div>
+
+      <div class="menu" id="profileMenu">
+        <button id="lutasButton" onclick="mostrarLutas()">Lutas</button>
+        <button id="perfil" onclick="mostrarPerfil()">Perfil</button>
+        <button id="sairButton">Sair</button>
+      </div>
+
+      <div id="lutasContainer" class="info-container" style="display: none">
+        <p id="exibirNome"></p>
+        <p id="exibirData"></p>
+        <p id="exibirHorario"></p>
+        <p id="exibirLocal"></p>
+        <p id="exibirParticipantes"></p>
+        <a class="closeBtn-lutas" onclick="fecharLutas()" href="#">X</a>
+      </div>
+
+      <div id="perfilContainer" class="info-container-perfil" style="display: none">
+        <a class="closeBtn-perfil" onclick="fecharPerfil()" href="#">X</a>
+      
+        <div class="profilePic-menuPerfil">
+          <img
+            src="https://img.blogs.es/anexom/wp-content/uploads/2016/04/foto-perfil.jpg"
+            alt="Foto de Perfil"
+          />
+        </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+        <!-- Campos para mostrar Nome, Email e Telefone -->
+        <div class="profileInfo">
+          <p><strong>Nome:</strong> <span id="nomePerfil"></span></p>
+          <p><strong>Email:</strong> <span id="emailPerfil"></span></p>
+          <p><strong>Telefone:</strong> <span id="telefonePerfil"></span></p>
+        </div>
+      </div>
+      
+
+      <div class="hamburger-menu">
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+          <span></span>
+        </label>
+
+        <ul class="menu__box">
+          <li><a class="menu__item" href="file:///D:/PAG_INICIAL/inicial.html">Tela Inicial</a></li>
+          </li>
+          <li><a class="menu__item" href="https://twitter.com/FightMaster2024" target="_blank">Twitter</a></li>
+          <li><a class="menu__item" href="https://www.instagram.com/fightmaster2024/" target="_blank">Instagram</a></li>
+        </ul>
+      </div>
+
+      <div class="overlay" id="overlay"></div>
+
+      <a
+        href="#"
+        class="animated-button1"
+        id="criarEventoButton"
+        onclick="toggleEventoInfo(), restaurarCampos()"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        Criar Evento
+      </a>
+    </div>
+
+    <div class="evento-info" id="eventoInfo">
+      <!-- Informações do evento aqui -->
+      <h2>INFORMAÇÕES DO EVENTO</h2>
+      <a class="close-btn" onclick="fecharEdiçãoEvento()" href="#">X</a>
+
+      <!-- Campo Nome do Evento -->
+      <label for="nome">Nome do Evento:</label>
+      <input
+        type="text"
+        id="nome"
+        style="width: 80%; height: 40px; right: 20px"
+        value="Nome do Evento"
+        onfocus="limparTexto(this)"
+        onblur="restaurarTexto(this)"
+        onkeydown="moverProximoCampo(event, 'data')"
+      /><br />
+
+      <!-- Campo Data -->
+      <label for="data">Data:</label>
+      <input
+        type="text"
+        id="data"
+        style="width: 80%; height: 40px"
+        value="00/00/0000"
+        maxlength="10"
+        onfocus="limparTexto(this)"
+        onblur="restaurarTexto(this)"
+        oninput="formatarData(this)"
+        onkeydown="moverProximoCampo(event, 'local')"
+      /><br />
+
+      <!-- Campo Local -->
+      <label for="local">Local:</label>
+      <input
+        type="text"
+        id="local"
+        style="width: 80%; height: 40px"
+        value="Local do Evento"
+        oninput="limitarCaracteres(this, 50);"
+        onfocus="limparTexto(this)"
+        onblur="restaurarTexto(this)"
+        onkeydown="moverProximoCampo(event, 'modalidade')"
+      /><br />
+
+      <!-- Campo Modalidade -->
+      <label for="modalidade">Modalidade:</label>
+      <center>
+        <select
+          id="modalidade"
+          style="width: 80%; height: 40px"
+          onchange="checkOutros()"
+        >
+          <option value="" selected disabled hidden>
+            Selecione a modalidade
+          </option>
+          <option value="Boxe">Boxe</option>
+          <option value="Judô">Judô</option>
+          <option value="Jiu-Jitsu">Jiu-Jitsu</option>
+          <option value="Karatê">Karatê</option>
+          <option value="Taekwondo">Taekwondo</option>
+          <option value="MMA">MMA</option>
+          <option value="Outros">Outros</option>
+        </select>
+      </center>
+
+      <center>
+        <input
+          type="text"
+          id="modalidadeInput"
+          placeholder="Digite a Modalidade"
+          style="width: 90%; height: 30px; display: none"
+          oninput="checkEmptyInput()"
+          onblur="checkEmptyInput()"
+          onkeydown="moverProximoCampo(event, 'descricao')"
+        />
+      </center>
+
+      <!-- Campo Descrição -->
+      <label for="descricao">Descrição:</label>
+      <input
+        type="text"
+        id="descricao"
+        style="width: 80%; height: 40px"
+        value="Descrição do Evento"
+        oninput="limitarCaracteres(this, 50);"
+        onfocus="limparTexto(this)"
+        onblur="restaurarTexto(this)"
+        onkeydown="moverProximoCampo(event, 'horario')"
+      /><br />
+
+      <!-- Campo Horário -->
+      <label for="horario">Horário:</label>
+      <input
+        type="text"
+        id="horario"
+        style="width: 80%; height: 40px"
+        value="00:00"
+        maxlength="5"
+        oninput="formatarHorario(this)"
+        onfocus="limparTexto(this)"
+        onblur="restaurarTexto(this)"
+        onkeydown="moverProximoCampo(event, 'Participantes')"
+      /><br />
+
+      <!-- Campo Número de Participantes -->
+      <label for="Participantes">Número de Participantes:</label>
+      <input
+        type="text"
+        id="Participantes"
+        style="width: 80%; height: 40px"
+        value="Numero de Participantes"
+        onfocus="limparTexto(this)"
+        onblur="restaurarTexto(this)"
+      /><br />
+
+      <!-- Botão Criar -->
+      <button onclick="validarCampos()">Criar</button>
+      <br />
+      <br />
+      <br />
+      <br />
+      <div id="mensagem"></div>
+    </div>
+    <script>
+      // Função para exibir as opções de modalidade
+      function mostrarModalidadeOptions() {
+        var modalidadeOptions = document.getElementById("modalidadeOptions");
+        // Verifica se as opções de modalidade estão visíveis
+        if (modalidadeOptions.style.display === "block") {
+          // Oculta as opções de modalidade se estiverem visíveis
+          modalidadeOptions.style.display = "none";
+        } else {
+          // Exibe as opções de modalidade se estiverem ocultas
+          modalidadeOptions.style.display = "block";
+        }
+      }
+
+      // Função para salvar as informações
+      function salvarInformacoes() {
+  var nome = document.getElementById("nome").value;
+  var data = document.getElementById("data").value;
+  var horario = document.getElementById("horario").value;
+  var local = document.getElementById("local").value;
+  var modalidadeSelect = document.getElementById("modalidade");
+  var modalidadeInput = document.getElementById("modalidadeInput");
+  var modalidade =
+    modalidadeSelect.style.display === "none"
+      ? modalidadeInput.value
+      : modalidadeSelect.value;
+  var descricao = document.getElementById("descricao").value;
+  var participantes = document.getElementById("Participantes").value;
+
+  // Salvando os dados no localStorage
+  localStorage.setItem("eventoNome", nome);
+  localStorage.setItem("eventoData", data);
+  localStorage.setItem("eventoHorario", horario);
+  localStorage.setItem("eventoLocal", local);
+  localStorage.setItem(
+    "eventoModalidade",
+    modalidadeSelect.value === "Outros"
+      ? modalidadeInput.value
+      : modalidade
+  );
+  localStorage.setItem("eventoDescricao", descricao);
+  localStorage.setItem("eventoParticipantes", participantes);
+
+  // Exibindo mensagem de sucesso ou outra ação desejada
+  alert("Informações do evento salvas com sucesso!");
+}
+
+  function carregarInformacoesSalvas() {
+  var nomeSalvo = localStorage.getItem("eventoNome");
+  var dataSalva = localStorage.getItem("eventoData");
+  var horarioSalvo = localStorage.getItem("eventoHorario");
+  var localSalvo = localStorage.getItem("eventoLocal");
+  var modalidadeSalva = localStorage.getItem("eventoModalidade");
+  var descricaoSalva = localStorage.getItem("eventoDescricao");
+  var participantesSalvo = localStorage.getItem("eventoParticipantes");
+
+  // Verificando se há dados salvos no localStorage
+  if (nomeSalvo && dataSalva && horarioSalvo && localSalvo && modalidadeSalva && descricaoSalva && participantesSalvo) {
+    // Preenchendo os campos com os dados salvos
+    document.getElementById("nome").value = nomeSalvo;
+    document.getElementById("data").value = dataSalva;
+    document.getElementById("horario").value = horarioSalvo;
+    document.getElementById("local").value = localSalvo;
+    // Verificando se a modalidade é "Outros" para definir corretamente
+    if (modalidadeSalva === "Outros") {
+      var modalidadeSelect = document.getElementById("modalidade");
+      var modalidadeInput = document.getElementById("modalidadeInput");
+      modalidadeSelect.style.display = "none";
+      modalidadeInput.style.display = "block";
+      modalidadeInput.value = modalidadeSalva;
+    } else {
+      document.getElementById("modalidade").value = modalidadeSalva;
+    }
+    document.getElementById("descricao").value = descricaoSalva;
+    document.getElementById("Participantes").value = participantesSalvo;
+  }
+}
+
+function exibirInformacoesSalvas() {
+  var nomeSalvo = localStorage.getItem("eventoNome");
+  var dataSalva = localStorage.getItem("eventoData");
+  var horarioSalvo = localStorage.getItem("eventoHorario");
+  var localSalvo = localStorage.getItem("eventoLocal");
+  var participantesSalvo = localStorage.getItem("eventoParticipantes");
+
+  // Verificando se há dados salvos no localStorage
+  if (nomeSalvo && dataSalva && horarioSalvo && localSalvo && participantesSalvo) {
+    // Preenchendo os elementos do retângulo de exibição com as informações salvas
+    document.getElementById("exibirNome").textContent = "NOME: " + nomeSalvo;
+    document.getElementById("exibirData").textContent = "DATA: " + dataSalva;
+    document.getElementById("exibirHorario").textContent = "HORÁRIO: " + horarioSalvo;
+    document.getElementById("exibirLocal").textContent = "LOCAL: " + localSalvo;
+    document.getElementById("exibirParticipantes").textContent = "PARTICIPANTES: /" + participantesSalvo;
+  } else {
+    // Se não houver informações salvas, pode-se exibir uma mensagem ou tomar outra ação
+    alert("Não há informações de evento salvas.");
+  }
+}
+
+// Adiciona o evento de clique ao botão "Lutas" para carregar os nomes dos eventos
+document.getElementById("lutasButton").addEventListener("click", exibirInformacoesSalvas);
+
+document.addEventListener("DOMContentLoaded", function() {
+  carregarInformacoesSalvas();
+});
+
+      function limparTexto(input) {
+        if (input.value === input.defaultValue) {
+          input.value = "";
+        }
+      }
+
+      function restaurarTexto(input) {
+        if (input.value === "") {
+          if (input.id === "nome") {
+            input.value = "Nome do Evento";
+          } else if (input.id === "data") {
+            input.value = "00/00/0000";
+          } else if (input.id === "horario") {
+            input.value = "00:00";
+          } else if (input.id === "local") {
+            input.value = "Local do Evento";
+          } else if (input.id === "Participantes") {
+            input.value = "Numero de Participantes";
+          } else if (input.id === "descricao") {
+            input.value = "Descrição do Evento";
+          }
+        }
+      }
+
+      function restaurarCampos(input) {
+        document.getElementById("nome").value = "Nome do Evento";
+        document.getElementById("data").value = "00/00/0000";
+        document.getElementById("horario").value = "00:00";
+        document.getElementById("local").value = "Local do Evento";
+        document.getElementById("modalidade").value = "";
+        document.getElementById("Participantes").value = "Numero de Participantes";
+        document.getElementById("descricao").value = "Descrição do Evento";
+      }
+
+      function moverProximoCampo(event, proximoCampoId) {
+        if (event.keyCode === 13) {
+          var elementoFocado = document.activeElement;
+
+          if (elementoFocado.id === "descricao") {
+            elementoFocado.blur();
+          }
+
+          var campos = document.querySelectorAll('input[type="text"], select');
+          // Encontra o índice do campo atual
+          var indiceAtual = Array.from(campos).findIndex(
+            (campo) => campo === elementoFocado
+          );
+          // Verifica se o índice atual é válido e se existe um próximo campo
+          if (indiceAtual > -1 && indiceAtual < campos.length - 1) {
+            // Move o foco para o próximo campo de entrada
+            campos[indiceAtual + 1].focus();
+          }
+        }
+      }
+
+      function checkOutros() {
+        var modalidadeSelect = document.getElementById("modalidade");
+        var modalidadeInput = document.getElementById("modalidadeInput");
+
+        if (modalidadeSelect.value === "Outros") {
+          modalidadeSelect.style.display = "none";
+          modalidadeInput.style.display = "block";
+          modalidadeInput.focus();
+        } else {
+          modalidadeSelect.style.display = "block";
+          modalidadeInput.style.display = "none";
+        }
+      }
+
+      function checkEmptyInput() {
+        var modalidadeSelect = document.getElementById("modalidade");
+        var modalidadeInput = document.getElementById("modalidadeInput");
+
+        if (modalidadeInput.value === "") {
+          modalidadeInput.style.display = "none";
+          modalidadeSelect.style.display = "block";
+          modalidadeSelect.value = ""; // Reseta a seleção do select
+        }
+      }
+
+      // Adiciona um evento keyup para verificar a validade da data enquanto o usuário digita
+      document
+        .getElementById("data")
+        .addEventListener("keyup", function (event) {
+          var data = this.value;
+
+          // Verifica se a data é inválida e exibe a mensagem se necessário
+          if (data.length === 10 && !validarData(data)) {
+            document.getElementById("mensagem").textContent = "DATA INVÁLIDA!";
+            document.getElementById("mensagem").style.display = "block";
+          } else {
+            document.getElementById("mensagem").style.display = "none";
+          }
+        });
+
+      // Função para validar e salvar as informações do evento
+      function validarCampos() {
+        var nome = document.getElementById("nome").value;
+        var data = document.getElementById("data").value;
+        var horario = document.getElementById("horario").value;
+        var local = document.getElementById("local").value;
+        var modalidadeSelect = document.getElementById("modalidade");
+        var modalidadeInput = document.getElementById("modalidadeInput");
+        var modalidade =
+          modalidadeSelect.style.display === "none"
+            ? modalidadeInput.value
+            : modalidadeSelect.value;
+        var participantes = document.getElementById("Participantes").value;
+        var descricao = document.getElementById("descricao").value;
+
+        if (
+          nome === "" ||
+          nome === "Nome do Evento" ||
+          data === "" ||
+          data === "00/00/0000" ||
+          horario === "" ||
+          horario === "00:00" ||
+          local === "" ||
+          local === "Local do Evento" ||
+          modalidade === "" ||
+          participantes === "" ||
+          participantes === "Numero de Participantes" ||
+          descricao === "" ||
+          descricao === "Descrição do Evento"
+        ) {
+          document.getElementById("mensagem").style.display = "block";
+          document.getElementById("mensagem").textContent =
+            "PREENCHA TODOS OS CAMPOS!";
+          return;
+        }
+
+        const dataInput = document.getElementById("data").value;
+
+        // Verifica se a data é inválida
+        if (!isDataValida(dataInput)) {
+          document.getElementById("mensagem").style.display = "block";
+          document.getElementById("mensagem").textContent = "DATA INVÁLIDA!";
+          return; // Impede a criação do evento
+        }
+
+        salvarInformacoes();
+        document.getElementById("eventoInfo").style.display = "none";
+        document.getElementById("overlay").classList.remove("active");
+        
+      }
+
+      // Função para limpar todos os campos e mensagens
+      function limparCampos() {
+        document.getElementById("nome").value = "";
+        document.getElementById("data").value = "";
+        document.getElementById("horario").value = "";
+        document.getElementById("local").value = "";
+        document.getElementById("modalidade").value = "Presencial";
+        document.getElementById("modalidadeInput").value = "";
+        document.getElementById("Participantes").value = "";
+        document.getElementById("descricao").value = "";
+      }
+
+      function formatarData(input) {
+        let valor = input.value.replace(/\D/g, ""); // Remove qualquer caractere não numérico
+
+        // Adiciona as barras após os dois primeiros e os dois últimos dígitos
+        if (valor.length > 2) {
+          valor = valor.slice(0, 2) + "/" + valor.slice(2);
+        }
+        if (valor.length > 5) {
+          valor = valor.slice(0, 5) + "/" + valor.slice(5, 9);
+        }
+
+        input.value = valor; // Atualiza o valor do campo com a formatação
+        validarData(input); // Valida a data após a formatação
+      }
+
+      function isDataValida(data) {
+        // Separa dia, mês e ano
+        const partes = data.split("/");
+        if (partes.length !== 3) return false;
+
+        const dia = parseInt(partes[0], 10);
+        const mes = parseInt(partes[1], 10);
+        const ano = parseInt(partes[2], 10);
+
+        // Verifica se o ano é menor que 2024
+        if (ano < 2024) return false;
+
+        // Verifica se o mês é válido
+        if (mes < 1 || mes > 12) return false;
+
+        // Verifica se o dia é válido para o mês
+        const diasNoMes = [
+          31,
+          (ano % 4 === 0 && ano % 100 !== 0) || ano % 400 === 0 ? 29 : 28,
+          31,
+          30,
+          31,
+          30,
+          31,
+          31,
+          30,
+          31,
+          30,
+          31,
+        ];
+        return dia > 0 && dia <= diasNoMes[mes - 1];
+      }
+
+      // Adiciona quebra de linha automaticamente após um número específico de caracteres
+      function limitarCaracteres(input, limite) {
+        if (input.value.length >= limite) {
+          input.value = input.value.substring(0, limite);
+        }
+      }
+
+      function toggleEventoInfo() {
+        var eventoInfo = document.getElementById("eventoInfo");
+        var overlay = document.getElementById("overlay");
+
+          eventoInfo.style.display = "block";
+          overlay.classList.add("active");
+      }
+
+      function formatarHorario(campo) {
+        let valor = campo.value.replace(/\D/g, ""); // Remove tudo que não for número
+        if (valor.length > 4) {
+          valor = valor.slice(0, 4); // Limita o valor a 4 dígitos
+        }
+        // Adiciona os dois pontos após o segundo dígito
+        if (valor.length > 2) {
+          valor = valor.slice(0, 2) + ":" + valor.slice(2);
+        }
+
+        campo.value = valor;
+
+        // Validação de horário
+        if (valor.length === 5) {
+          const [horas, minutos] = valor.split(":").map(Number);
+          const mensagemErro = document.getElementById("mensagemErro");
+
+          if (horas > 23 || minutos > 59) {
+            document.getElementById("mensagem").textContent =
+              "HORÁRIO INVÁLIDO!";
+            document.getElementById("mensagem").style.display = "block";
+          } else {
+            document.getElementById("mensagem").style.display = "none";
+          }
+        }
+      }
+
+      document
+        .getElementById("Participantes")
+        .addEventListener("input", function () {
+          if (this.value > 100) {
+            this.value = 100;
+          }
+        });
+
+      document
+        .getElementById("descricao")
+        .addEventListener("input", function () {
+          limitarCaracteres(this, 300);
+        });
+
+      function fecharEdiçãoEvento() {
+        var menu = document.getElementById("profileMenu");
+
+        document.getElementById("eventoInfo").style.display = "none"; // Oculta o container
+        overlay.classList.remove("active");
+        limparCampos();
+        menu.style.display = "none";
+      }
+
+      function fecharPerfil() {
+        var menu = document.getElementById("profileMenu");
+
+        document.getElementById("perfilContainer").style.display = "none"; // Oculta o container
+        menu.style.display = "none";
+      }
+
+      function fecharLutas() {
+        var menu = document.getElementById("profileMenu");
+
+        document.getElementById("lutasContainer").style.display = "none"; // Oculta o container
+        overlay.classList.remove("active");
+        menu.style.display = "none";
+      }
+
+      let slideIndex = 0;
+      showSlides();
+
+      function showSlides() {
+        let slides = document.getElementsByClassName("slide");
+
+        // Ocultar todas as slides
+        for (let i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+
+        // Aumentar o índice do slide e reiniciar se ultrapassar o número de slides
+        slideIndex++;
+        if (slideIndex > slides.length) {
+          slideIndex = 1;
+        }
+
+        // Mostrar o slide atual
+        slides[slideIndex - 1].style.display = "block";
+
+        // Chama showSlides a cada 2 segundos (opcional)
+        setTimeout(showSlides, 2000); // Muda a imagem a cada 2 segundos
+      }
+
+      function changeSlide(n) {
+        slideIndex += n;
+        let slides = document.getElementsByClassName("slide");
+
+        if (slideIndex > slides.length) {
+          slideIndex = 1;
+        }
+        if (slideIndex < 1) {
+          slideIndex = slides.length;
+        }
+
+        // Oculta todas as slides
+        for (let i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+        }
+
+        // Mostra o slide atual
+        slides[slideIndex - 1].style.display = "block";
+      }
+
+      function toggleMenu() {
+        var menu = document.getElementById("profileMenu");
+        // Alternar a exibição do menu
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      }
+
+      function mostrarLutas() {
+        const lutasContainer = document.getElementById("lutasContainer");
+        var overlay = document.getElementById("overlay");
+
+        // Mostrar o contêiner
+        lutasContainer.style.display = "block";
+        overlay.classList.add("active");
+
+        // Adiciona a classe active para animar
+        const eventoContainer = document.getElementById("eventoContainer");
+        eventoContainer.classList.add("active"); // Inicia a animação
+
+        // Exibe o contêiner
+        eventoContainer.style.display = "block";
+      }
+
+      function mostrarPerfil() {
+    var perfilContainer = document.getElementById("perfilContainer");
+    var eventoContainer = document.getElementById("eventoContainer");
+
+    // Mostrar o contêiner de perfil e aplicar a animação
+    perfilContainer.style.display = "block";
+    eventoContainer.classList.add("active"); // Adiciona a classe para animar
+}
+
+// Função para carregar os dados do perfil do sessionStorage
+function carregarDadosPerfil() {
+    // Exemplo de recuperação dos dados (pode ser de localStorage ou sessionStorage)
+    var dadosUsuario = JSON.parse(localStorage.getItem("organizador"));
+
+    // Verifica se os dados existem e preenche os campos se estiverem disponíveis
+    if (dadosUsuario) {
+      document.getElementById("nomePerfil").textContent = dadosUsuario.nome || "N/A";
+      document.getElementById("emailPerfil").textContent = dadosUsuario.email || "N/A";
+      document.getElementById("telefonePerfil").textContent = dadosUsuario.telefone || "N/A";
+    } else {
+      console.log("Dados do usuário não encontrados.");
+    }
+  }
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  carregarDadosPerfil();
+});
+
+  // Chama a função para carregar os dados ao abrir o perfil (ou em um evento desejado)
+  
+    </script>
+  </body>
+</html>

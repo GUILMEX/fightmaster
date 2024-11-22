@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/main.css" />
+    <style>
+      .info-container {
+        position: absolute;
+        left: 34%;
+        transform: translateY(0px);
+        background-color: #000000;
+        border: 4px solid red; /* Adiciona uma borda vermelha */
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 1000;
+        width: 30%;
+        height: 600%;
+        font-size: 40px;
+        animation: slideDown 2s ease; /* Aplica a animação */
+        z-index: 6;
+        text-align: left; /* Alinha o texto à esquerda */
+      }
+
+      .info-container.active {
+        display: block; /* Torna o contêiner visível */
+      }
+
+      @keyframes slideDown {
+        0% {
+          transform: translateY(-1000px); /* Começa fora da tela */
+          opacity: 0; /* Invisível no início */
+        }
+        100% {
+          transform: translateY(0px); /* Posição final */
+          opacity: 1; /* Totalmente visível */
+        }
+      }
+
+      .close-btn {
+        text-decoration: none;
+        position: relative;
+        top: 0px;
+        left: 95%;
+        font-size: 50px;
+        color: white;
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .close-btn:hover {
+        transform: scale(1.2);
+      }
+
+      .closeBtn-perfil {
+        text-decoration: none;
+        position: relative;
+        top: 0px;
+        left: 48%;
+        font-size: 50px;
+        color: white;
+        transition: transform 0.2s ease;
+        display: inline-block;
+      }
+
+      .closeBtn-perfil:hover {
+        transform: scale(1.2);
+      }
+
+      .profile-pic {
+        position: absolute;
+        top: 12px; /* Ajuste a posição vertical */
+        right: 50px; /* Ajuste a posição horizontal */
+        width: 90px; /* Ajuste o tamanho da imagem */
+        height: 90px; /* Ajuste o tamanho da imagem */
+        border-radius: 50%; /* Faz a imagem ser circular */
+        overflow: hidden; /* Esconde partes da imagem que ultrapassam o border-radius */
+        border: 4px solid red; /* Borda branca para destacar */
+        cursor: pointer;
+        z-index: 3;
+      }
+
+      .profile-pic img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cobre toda a área disponível sem distorcer a imagem */
+      }
+
+      .profile-pic:hover {
+        border: 4px solid rgb(125, 0, 0);
+      }
+
+      .profilePic-menuPerfil {
+        position: absolute;
+        top: 50px; /* Ajuste a posição vertical */
+        right: 100px; /* Ajuste a posição horizontal */
+        width: 300px; /* Ajuste o tamanho da imagem */
+        height: 300px; /* Ajuste o tamanho da imagem */
+        border-radius: 50%; /* Faz a imagem ser circular */
+        overflow: hidden; /* Esconde partes da imagem que ultrapassam o border-radius */
+        border: 6px solid red; /* Borda branca para destacar */
+        cursor: pointer;
+        z-index: 3;
+      }
+
+      .profilePic-menuPerfil img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cobre toda a área disponível sem distorcer a imagem */
+      }
+
+      .profilePic-menuPerfil:hover {
+        border: 6px solid rgb(125, 0, 0);
+      }
+
+      /* Estilo para o menu */
+      .menu {
+        display: none; /* Inicialmente oculto */
+        position: absolute;
+        right: -5px;
+        transform: translateY(-3px); /* Posição final */
+        background-color: #000000;
+        border: 4px solid red; /* Adiciona uma borda vermelha */
+        border-radius: 5px; /* Bordas arredondadas */
+        width: 10%;
+        height: 80%;
+        animation: slideDesce 1s ease; /* Aplica a animação */
+        transition: opacity 0.3s ease;
+        z-index: 1;
+      }
+
+      @keyframes slideDesce {
+        0% {
+          transform: translateY(-200px); /* Começa fora da tela */
+          opacity: 0; /* Invisível no início */
+        }
+        100% {
+          transform: translateY(-3px); /* Posição final */
+          opacity: 1; /* Totalmente visível */
+        }
+      }
+
+      .menu button {
+        display: block; /* Botões em bloco para ocupar toda a largura */
+        width: 100%; /* Largura total do menu */
+        height: 50px;
+        padding: 10px; /* Espaçamento interno */
+        border: none; /* Remove borda padrão */
+        background: none; /* Fundo transparente */
+        cursor: pointer; /* Indica que o botão é clicável */
+        text-align: center; /* Alinha o texto à esquerda */
+        font-size: 25px;
+        color: white;
+      }
+
+      .menu button:hover {
+        background-color: #7b0000dc;
+      }
+
+      .info-container-perfil {
+        position: absolute;
+        top: 100%;
+        transform: translateX(268%);
+        background-color: #000000;
+        border: 4px solid red; /* Adiciona uma borda vermelha */
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        z-index: 3;
+        width: 25%;
+        height: 650%;
+        font-size: 40px;
+        animation: slidePerfil 1s ease; /* Aplica a animação */
+      }
+
+      .info-container-perfil.active {
+        display: block; /* Torna o contêiner visível */
+      }
+
+      @keyframes slidePerfil {
+        0% {
+          transform: translateX(600%); /* Começa fora da tela */
+          opacity: 0; /* Invisível no início */
+        }
+        100% {
+          transform: translateX(268%); /* Posição final */
+          opacity: 1; /* Totalmente visível */
+        }
+      }
+
+      /* Estilos para o cabeçalho */
+      .cabecalho-interior {
+        background-color: black; /* Cor de fundo preta */
+        border: 5px solid red; /* Contorno vermelho */
+        position: absolute; /* Posicionamento absoluto */
+        width: 99.8%; /* Largura total */
+        height: 96%;
+        z-index: 2; /* Posiciona por cima de todos os outros elementos */
+        left: 0%;
+        top: 0%;
+      }
+
+      #criarEventoButton {
+        position: relative;
+        z-index: 3; /* Ajuste o valor conforme necessário */
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: -1;
+        backdrop-filter: blur(30px);
+        z-index: 5;
+      }
+
+      .overlay.active {
+        display: block;
+      }
+
+      .slideshow {
+        position: relative;
+        width: 100%;
+        height: 90vh; /* Ajuste para 100% da altura da tela */
+        top: 10%;
+        overflow: hidden;
+      }
+
+      .slideshow img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        animation: fade 15s infinite; /* Duração total de 15s para todas as imagens */
+      }
+
+      .slideshow a {
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      @keyframes fade {
+        0% {
+          opacity: 0;
+        }
+        20% {
+          opacity: 1;
+        }
+        33% {
+          opacity: 1;
+        }
+        53% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="slideshow">
+      <img
+        src="https://wallpaperaccess.com/full/1960765.jpg"
+        alt="Imagem 1"
+        style="animation-delay: 0s; z-index: -2"
+      />
+      <img
+        src="https://www.ecestaticos.com/imagestatic/clipping/165/a2f/165a2f7c0eac83c48dbbb9eb1aa8afd0/imagen-sin-titulo.jpg?mtime=1622843170"
+        alt="Imagem 2"
+        style="animation-delay: 5s; z-index: -2"
+      />
+      <img
+        src="https://images03.military.com/sites/default/files/styles/full/public/2022-08/ap-Norton-Boxing.jpg"
+        alt="Imagem 3"
+        style="animation-delay: 10s; z-index: -2"
+      />
+    </div>
+    <header class="cabecalho">
+      <div class="container">
+        <div class="header">
+          <a
+            href="#"
+            class="animated-button1"
+            id="criarEventoButton"
+            onclick="mostrarContainer()"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Eventos
+          </a>
+        </div>
+      </div>
+
+      <div id="InfoContainer" class="info-container" style="display: none">
+        <a class="close-btn" onclick="fecharEventos()" href="#">X</a>
+      </div>
+
+      <div class="profile-pic" onclick="toggleMenu()">
+        <img
+          src="https://img.blogs.es/anexom/wp-content/uploads/2016/04/foto-perfil.jpg"
+          alt="Foto de Perfil"
+        />
+      </div>
+
+      <div class="menu" id="profileMenu">
+        <button id="perfil" onclick="mostrarPerfil()">Perfil</button>
+        <button id="sairButton">Sair</button>
+      </div>
+
+      <div class="cabecalho-interior"></div>
+
+      <div class="overlay" id="overlay"></div>
+
+      <div
+        id="perfilContainer"
+        class="info-container-perfil"
+        style="display: none"
+      >
+        <a class="closeBtn-perfil" onclick="fecharPerfil()" href="#">X</a>
+
+        <div class="profilePic-menuPerfil">
+          <img
+            src="https://img.blogs.es/anexom/wp-content/uploads/2016/04/foto-perfil.jpg"
+            alt="Foto de Perfil"
+          />
+        </div>
+      </div>
+
+      <div class="hamburger-menu">
+        <input id="menu__toggle" type="checkbox" />
+        <label class="menu__btn" for="menu__toggle">
+          <span></span>
+        </label>
+
+        <ul class="menu__box">
+          <li>
+            <a class="menu__item" href="file:///D:/PAG_INICIAL/inicial.html"
+              >Tela Inicial</a
+            >
+          </li>
+          <li>
+            <a
+              class="menu__item"
+              href="https://twitter.com/FightMaster2024"
+              target="_blank"
+              >Twitter</a
+            >
+          </li>
+          <li>
+            <a
+              class="menu__item"
+              href="https://www.instagram.com/fightmaster2024/"
+              target="_blank"
+              >Instagram</a
+            >
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <div class="conteudo">
+      <!-- Conteúdo do corpo do site -->
+    </div>
+
+    <script>
+      document
+        .getElementById("perfil-img-input")
+        .addEventListener("change", function () {
+          var input = this;
+          var imgPreview = document.getElementById("perfil-img-preview");
+
+          if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+              imgPreview.src = e.target.result;
+              imgPreview.style.display = "block"; // Exibe a imagem de pré-visualização
+            };
+
+            reader.readAsDataURL(input.files[0]);
+          } else {
+            imgPreview.src = "";
+            imgPreview.style.display = "none"; // Oculta a imagem de pré-visualização se nenhum arquivo for selecionado
+          }
+        });
+
+      function mostrarContainer() {
+        var InfoContainer = document.getElementById("InfoContainer");
+        var overlay = document.getElementById("overlay");
+
+        InfoContainer.style.display = "block";
+        overlay.classList.add("active");
+      }
+
+      function fecharEventos() {
+        var menu = document.getElementById("profileMenu");
+        var overlay = document.getElementById("overlay");
+
+        document.getElementById("InfoContainer").style.display = "none"; // Oculta o container
+        menu.style.display = "none";
+        overlay.classList.remove("active");
+      }
+
+      function fecharPerfil() {
+        var menu = document.getElementById("profileMenu");
+
+        document.getElementById("perfilContainer").style.display = "none"; // Oculta o container
+        menu.style.display = "none";
+      }
+
+      function toggleMenu() {
+        var menu = document.getElementById("profileMenu");
+        // Alternar a exibição do menu
+        menu.style.display = menu.style.display === "block" ? "none" : "block";
+      }
+
+      function mostrarPerfil() {
+        var perfilContainer = document.getElementById("perfilContainer");
+        var eventoContainer = document.getElementById("eventoContainer");
+
+        // Mostrar o contêiner de perfil e aplicar a animação
+        perfilContainer.style.display = "block";
+        eventoContainer.classList.add("active"); // Adiciona a classe para animar
+      }
+    </script>
+  </body>
+</html>
